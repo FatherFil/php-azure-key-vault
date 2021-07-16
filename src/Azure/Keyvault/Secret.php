@@ -1,18 +1,6 @@
 <?php
 
-/*
-*
-* Very Basic Wrapper For Accessing Secrets in an Azure Key Vault.
-* 
-* http://www.bentaylor.work
-* http://github.com/bentaylorwork
-*
-* @author Ben Taylor <ben@bentaylor.work>
-* @date 2017-11-18
-*
-*/
-
-namespace bentaylorwork\azure\keyvault;
+namespace Vault\Azure\Keyvault;
 
 class Secret extends Vault
 {
@@ -26,9 +14,9 @@ class Secret extends Vault
     * If the secret name exists it creates a new version under the same secret name.
     */
 
-    public function addUpdate(string $secretName, string $secretValue)
+    public function addUpdate(string $secretName, string $secretValue): array
     {
-        $apiCall = "secrets/{$secretName}?api-version=2016-10-01";
+        $apiCall = "secrets/$secretName?api-version=2016-10-01";
 
         $options = [
             'value' => $secretValue
@@ -43,7 +31,7 @@ class Secret extends Vault
 
     public function delete(string $secretName)
     {
-        $apiCall = "secrets/{$secretName}?api-version=2016-10-01";
+        $apiCall = "secrets/$secretName?api-version=2016-10-01";
 
         return $this->requestApi('DELETE', $apiCall);
     }
@@ -60,10 +48,10 @@ class Secret extends Vault
             // if version is full URL extract version from it
             if (filter_var($version, FILTER_VALIDATE_URL)) {
                 $urlExplode = explode('/', rtrim($version, '/'));
-                $version = array_pop($urlExplode);
+                $version    = array_pop($urlExplode);
             }
 
-            $apiCall = "secrets/{$secretName}/{$version}?api-version=2016-10-01";
+            $apiCall = "secrets/$secretName/$version?api-version=2016-10-01";
         }
 
         return $this->requestApi('GET', $apiCall);
@@ -79,7 +67,7 @@ class Secret extends Vault
             $maxResults = 25;
         }
 
-        $apiCall = "secrets/{$secretName}/versions?api-version=2016-10-01&{$maxResults}";
+        $apiCall = "secrets/$secretName/versions?api-version=2016-10-01&$maxResults";
 
         return $this->requestApi('GET', $apiCall);
     }

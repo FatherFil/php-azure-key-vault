@@ -1,18 +1,11 @@
 <?php
 
-/*
-*
-* Very Basic Wrapper For Accessing Secrets in an Azure Key Vault.
-* 
-* http://www.bentaylor.work
-* http://github.com/bentaylorwork
-*
-* @author Ben Taylor <ben@bentaylor.work>
-* @date 2017-11-18
-*
-*/
+namespace Vault\Azure\Keyvault;
 
-namespace bentaylorwork\azure\keyvault;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\GuzzleException;
+use GuzzleHttp\Exception\RequestException;
 
 abstract class Vault
 {
@@ -31,22 +24,20 @@ abstract class Vault
     /*
     * Set the name of the key vault you want to interact with
     */
-
     private function setKeyVaultName($keyVaultName)
     {
-        $this->keyVault = "https://{$keyVaultName}.vault.azure.net/";
+        $this->keyVault = "https://$keyVaultName.vault.azure.net/";
     }
 
     /*
     * Create the API call to the Azure RM API
     */
-
-    protected function requestApi($method, $apiCall, $json = null)
+    protected function requestApi($method, $apiCall, $json = null): array
     {
-        $client = new \GuzzleHttp\Client(
+        $client = new Client(
             [
-                'base_uri'    => $this->keyVault,
-                'timeout'     => 2.0
+                'base_uri' => $this->keyVault,
+                'timeout'  => 2.0
             ]
         );
 
@@ -61,7 +52,7 @@ abstract class Vault
                         'Content-Type'  => 'application/json',
                         'Authorization' => "Bearer " . $this->accessToken
                     ],
-                    'json' => $json
+                    'json'    => $json
                 ]
             );
 
@@ -70,29 +61,31 @@ abstract class Vault
                 $result->getReasonPhrase(),
                 json_decode($result->getBody()->getContents(), true)
             );
-        } catch (\GuzzleHttp\Exception\ClientException $e) {
+        } catch (ClientException $e) {
+            $array = json_decode($e->getResponse()->getBody()->getContents(), true);
             return $this->setOutput(
                 $e->getResponse()->getStatusCode(),
-                array_shift(json_decode($e->getResponse()->getBody()->getContents(), true))
+                array_shift($array)
             );
-        } catch (\GuzzleHttp\Exception\RequestException $e) {
+        } catch (RequestException $e) {
             return $this->setOutput(
                 500,
                 $e->getHandlerContext()['error']
             );
+        } catch (GuzzleException $e) {
+            return $this->setOutput(500, $e->getMessage());
         }
     }
 
     /*
     * Create an array to control output
     */
-
-    private function setOutput($code, $message, $data = null)
+    private function setOutput($code, $message, $data = null): array
     {
         return [
-                'responsecode'    => $code,
-                'responseMessage' => $message,
-                'data'            => $data
+            'responsecode'    => $code,
+            'responseMessage' => $message,
+            'data'            => $data
         ];
     }
 }

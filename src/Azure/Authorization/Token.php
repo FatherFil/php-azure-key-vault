@@ -1,20 +1,8 @@
 <?php
 
-/*
-*
-* Allows you to get an access tokens from Azure AD.
-*
-* No Error handling on incorrect details.
-*
-* http://www.bentaylor.work
-* http://github.com/bentaylorwork
-*
-* @author Ben Taylor <ben@bentaylor.work>
-* @date 2017-11-18
-*
-*/
+namespace Vault\Azure\Authorization;
 
-namespace bentaylorwork\azure\authorisation;
+use GuzzleHttp\Client;
 
 class Token
 {
@@ -24,7 +12,7 @@ class Token
 
     public static function getKeyVaultToken(array $azureAppDetails)
     {
-        $guzzle = new \GuzzleHttp\Client();
+        $guzzle = new Client();
 
         $token = $guzzle->post(
             "https://login.microsoftonline.com/{$azureAppDetails['appTenantDomainName']}/oauth2/token",

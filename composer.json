@@ -19,11 +19,13 @@
         }
     ],
     "require": {
-        "guzzlehttp/guzzle": "^7.0.1"
+        "php": "^8.0",
+        "ext-json": "*",
+        "guzzlehttp/guzzle": "^7.3"
     },
     "autoload": {
-        "psr-0": {
-            "bentaylorwork\\azure\\": "src/"
+        "psr-4": {
+            "Vault\\Azure\\": "src/Azure"
         }
     }
 }

@@ -1,18 +1,6 @@
 <?php
 
-/*
-*
-* Very Basic Wrapper For Accessing Encypting\Decrypting data in an Azure Key Vault.
-*
-* http://www.bentaylor.work
-* http://github.com/bentaylorwork
-*
-* @author Ben Taylor <ben@bentaylor.work>
-* @date 2017-11-18
-*
-*/
-
-namespace bentaylorwork\azure\keyvault;
+namespace Vault\Azure\Keyvault;
 
 class Key extends Vault
 {
@@ -22,13 +10,13 @@ class Key extends Vault
     }
 
     /*
-    * Encrypt's a string using a key from an Azure Key Vault
+    * Encrypts a string using a key from an Azure Key Vault
     */
 
     public function encrypt(string $keyName, string $version, string $value)
     {
 
-        $apiCall = "keys/{$keyName}/{$version}/encrypt?api-version=2016-10-01";
+        $apiCall = "keys/$keyName/$version/encrypt?api-version=2016-10-01";
 
         $options = [
             'alg'   => 'RSA-OAEP',
@@ -44,7 +32,7 @@ class Key extends Vault
 
     public function decrypt(string $keyName, string $version, string $value)
     {
-        $apiCall = "keys/{$keyName}/{$version}/decrypt?api-version=2016-10-01";
+        $apiCall = "keys/$keyName/$version/decrypt?api-version=2016-10-01";
 
         $options = [
             'alg'   => 'RSA-OAEP',

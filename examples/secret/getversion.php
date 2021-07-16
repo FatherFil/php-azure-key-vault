@@ -2,8 +2,8 @@
 
 require_once '../../vendor/autoload.php';
 
-use bentaylorwork\azure\authorisation\Token as azureAuthorisation;
-use bentaylorwork\azure\keyvault\Secret as keyVaultSecret;
+use Vault\Azure\Authorization\Token as azureAuthorisation;
+use Vault\Azure\Keyvault\Secret as keyVaultSecret;
 
 $keyVault = new keyVaultSecret(
     [
@@ -19,6 +19,6 @@ $keyVault = new keyVaultSecret(
 );
 
 // get the latest value for the secret
-var_dump($keyVault->getKeyVaultSecretVersion('T1', 'https://keyVaultName.vault.azure.net/secrets/T1/2c9f9ed2bdbc463b828e9c19ef558148'));
+var_dump($keyVault->getKeyVaultSecretVersion('T1', 'https://keyVaultName.vault.Azure.net/secrets/T1/2c9f9ed2bdbc463b828e9c19ef558148'));
 
 var_dump($keyVault->getKeyVaultSecretVersion('T1', '2c9f9ed2bdbc463b828e9c19ef558148'));

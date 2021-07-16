@@ -2,8 +2,8 @@
 
 require_once '../../vendor/autoload.php';
 
-use bentaylorwork\azure\authorisation\Token as azureAuthorisation;
-use bentaylorwork\azure\keyvault\Key as keyVaultKey;
+use Vault\Azure\Authorization\Token as azureAuthorisation;
+use Vault\Azure\Keyvault\Key as keyVaultKey;
 
 $keyVault = new keyVaultKey(
     [

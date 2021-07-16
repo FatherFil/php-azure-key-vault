@@ -13,6 +13,10 @@ No tests implemented.
 2) Install the project via composer.
 3) Follow one of the examples.
 
+## Requirements
+
+- PHP 8+
+
 ## Example
 
 More examples can be found in the examples folder.
@@ -20,8 +24,8 @@ More examples can be found in the examples folder.
 ```php
 require_once '../../vendor/autoload.php';
 
-use bentaylorwork\azure\authorisation\Token as azureAuthorisation;
-use bentaylorwork\azure\keyvault\Secret as keyVaultSecret;
+use Vault\Azure\Authorization\Token as azureAuthorisation;
+use Vault\Azure\Keyvault\Secret as keyVaultSecret;
 
 $keyVault = new keyVaultSecret(
     [
@@ -42,3 +46,4 @@ var_dump($keyVault->get('T1'));
 
 ## Contributors
   - Ben Taylor
+  - MefistoBaal
