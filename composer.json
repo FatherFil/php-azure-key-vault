@@ -1,5 +1,5 @@
 {
-    "name": "mefistobaal/azurekeyvault",
+    "name": "fatherfil/azurekeyvault",
     "description": "A simple wrapper for the Azure RM Key Vault API.",
     "keywords": [
         "php",
